@@ -1,244 +1,34 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>台北行程｜2026.09.18–09.23</title>
 <style>
-  :root{
-    --bg:#f6f2ea;
-    --paper:#fffdf8;
-    --ink:#22211f;
-    --muted:#777068;
-    --line:#ded7cc;
-    --accent:#b85b3f;
-    --soft:#eee2d5;
-    --green:#6f7f6a;
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","Noto Sans JP",sans-serif;
-    background:var(--bg);
-    color:var(--ink);
-  }
-  .wrap{max-width:980px;margin:0 auto;padding:38px 20px 80px}
-  header{display:flex;justify-content:space-between;gap:24px;align-items:flex-end;padding:22px 0 30px;border-bottom:1px solid var(--line)}
-  h1{margin:0;font-size:clamp(34px,7vw,70px);line-height:.95;letter-spacing:-.04em}
-  .sub{margin-top:14px;color:var(--muted);font-size:14px;letter-spacing:.1em}
-  .controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-  button{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:9px 13px;font-size:13px;cursor:pointer}
-  button:hover{background:#fff}
-  button.active{background:var(--ink);color:white;border-color:var(--ink)}
-  .edit-tip{display:none;margin:14px 0 0;color:var(--accent);font-size:13px}
-  body.editing .edit-tip{display:block}
-  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:28px}
-  .day{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 8px 22px rgba(48,40,29,.035)}
-  .day-head{display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:8px}
-  .date{font-size:26px;font-weight:750;letter-spacing:-.03em}
-  .weekday{font-size:13px;color:var(--muted)}
-  .item{display:grid;grid-template-columns:64px 1fr;gap:10px;padding:12px 0;border-bottom:1px dashed #e7e1d8}
-  .time{font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
-  .place{font-weight:650;line-height:1.5}
-  .meta{margin-top:4px;font-size:13px;color:var(--muted);line-height:1.55}
-  .map{display:inline-block;margin-top:6px;color:var(--green);font-size:12px;text-decoration:none;border-bottom:1px solid #bfc8bc}
-  .pending{background:var(--soft);padding:9px 11px;border-radius:12px}
-  [contenteditable="true"]{outline:2px dashed rgba(184,91,63,.25);outline-offset:3px;border-radius:4px}
-  .day-actions{display:none;padding-top:14px;justify-content:flex-start}
-  body.editing .day-actions{display:flex}
-  .add-item-btn{width:100%;border-style:dashed;color:var(--green);background:#fbfaf6}
-  .remove-item{display:none;margin-top:8px;padding:4px 9px;font-size:11px;color:var(--accent);border-color:#dfc0b7;background:transparent}
-  body.editing .remove-item{display:inline-block}
-  .custom-item{background:rgba(238,226,213,.28);border-radius:12px;padding:12px 8px;margin-top:5px}
-  .footer{margin-top:24px;color:var(--muted);font-size:12px;line-height:1.7}
-  @media (max-width:700px){
-    .wrap{padding:24px 14px 60px}
-    header{align-items:flex-start;flex-direction:column}
-    .controls{justify-content:flex-start}
-    .grid{grid-template-columns:1fr}
-    .day{padding:17px}
-  }
-  @media print{
-    body{background:white}
-    .wrap{max-width:none;padding:0}
-    .controls,.edit-tip,.footer,.day-actions,.remove-item{display:none!important}
-    .grid{grid-template-columns:1fr 1fr;gap:10px}
-    .day{box-shadow:none;break-inside:avoid}
-  }
+:root{--bg:#f6f2ea;--paper:#fffdf8;--ink:#22211f;--muted:#777068;--line:#ded7cc;--accent:#b85b3f;--soft:#eee2d5;--green:#6f7f6a}*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink)}.wrap{max-width:980px;margin:0 auto;padding:38px 20px 80px}header{display:flex;justify-content:space-between;gap:24px;align-items:flex-end;padding:22px 0 30px;border-bottom:1px solid var(--line)}h1{margin:0;font-size:clamp(34px,7vw,70px);line-height:.95;letter-spacing:-.04em}.sub{margin-top:14px;color:var(--muted);font-size:14px;letter-spacing:.1em}.controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}button{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:9px 13px;font-size:13px;cursor:pointer}button:hover{background:#fff}button.active{background:var(--ink);color:#fff;border-color:var(--ink)}.edit-tip{display:none;margin:14px 0 0;color:var(--accent);font-size:13px}body.editing .edit-tip{display:block}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:28px}.day{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 8px 22px rgba(48,40,29,.035)}.day-head{display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:8px}.date{font-size:26px;font-weight:750;letter-spacing:-.03em}.weekday{font-size:13px;color:var(--muted)}.item{display:grid;grid-template-columns:64px 1fr;gap:10px;padding:12px 8px;border-bottom:1px dashed #e7e1d8;border-radius:12px;position:relative}.time{font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}.place{font-weight:650;line-height:1.5}.meta{margin-top:4px;font-size:13px;color:var(--muted);line-height:1.55}.map{display:inline-block;margin-top:6px;color:var(--green);font-size:12px;text-decoration:none;border-bottom:1px solid #bfc8bc}.pending{background:var(--soft);padding:9px 11px;border-radius:12px}[contenteditable=true]{outline:2px dashed rgba(184,91,63,.25);outline-offset:3px;border-radius:4px}.day-actions{display:none;padding-top:14px}.editing .day-actions{display:flex}.add-item-btn{width:100%;border-style:dashed;color:var(--green);background:#fbfaf6}.item-tools{display:none;align-items:center;gap:7px;margin-top:9px;flex-wrap:wrap}.editing .item-tools{display:flex}.color-label{font-size:11px;color:var(--muted)}.color-picker{width:28px;height:28px;border:0;padding:0;background:transparent;cursor:pointer}.clear-color,.remove-item{padding:4px 9px;font-size:11px;background:transparent}.clear-color{color:var(--green)}.remove-item{color:var(--accent);border-color:#dfc0b7}.custom-item{background:rgba(238,226,213,.28);margin-top:5px}.footer{margin-top:24px;color:var(--muted);font-size:12px;line-height:1.7}@media(max-width:700px){.wrap{padding:24px 14px 60px}header{align-items:flex-start;flex-direction:column}.controls{justify-content:flex-start}.grid{grid-template-columns:1fr}.day{padding:17px}}@media print{body{background:#fff}.wrap{max-width:none;padding:0}.controls,.edit-tip,.footer,.day-actions,.item-tools{display:none!important}.grid{grid-template-columns:1fr 1fr;gap:10px}.day{box-shadow:none;break-inside:avoid}}
 </style>
-</head>
-<body>
-<div class="wrap">
-  <header>
-    <div>
-      <h1 contenteditable="false" data-editable>TAIPEI<br>2026</h1>
-      <div class="sub" contenteditable="false" data-editable>09.18 FRI — 09.23 WED · 5 NIGHTS / 6 DAYS</div>
-      <div class="edit-tip">編輯模式已開啟：可直接修改文字，也可在每天卡片底部新增行程。內容會自動保存在這個瀏覽器。</div>
-    </div>
-    <div class="controls">
-      <button id="editBtn" onclick="toggleEdit()">編輯行程</button>
-      <button onclick="window.print()">列印 / 存 PDF</button>
-      <button onclick="resetData()">恢復原始版本</button>
-    </div>
-  </header>
-
-  <main class="grid" id="itinerary">
-    <section class="day">
-      <div class="day-head"><div class="date" data-editable>9/18</div><div class="weekday" data-editable>FRI｜抵達台北</div></div>
-      <div class="item"><div class="time" data-editable>12:40</div><div><div class="place" data-editable>羽田 T3 → 台北松山</div><div class="meta" data-editable>出發</div></div></div>
-      <div class="item"><div class="time" data-editable>15:05</div><div><div class="place" data-editable>抵達台北松山機場</div></div></div>
-      <div class="item"><div class="time" data-editable>15:00~</div><div><div class="place" data-editable>Check-in｜旅城驛鎮－南京一館</div><div class="meta" data-editable>松江南京站附近</div><a class="map" href="https://maps.app.goo.gl/khNGMaqjdG1tPMGh7" target="_blank">Google Maps ↗</a></div></div>
-      <div class="item"><div class="time" data-editable>夜</div><div class="pending"><div class="place" data-editable>自由安排</div><div class="meta" data-editable>抵達日不要塞太滿；吃飯、散步、便利商店補給即可。</div></div></div>
-    </section>
-
-    <section class="day">
-      <div class="day-head"><div class="date" data-editable>9/19</div><div class="weekday" data-editable>SAT｜宴會日</div></div>
-      <div class="item"><div class="time" data-editable>11:30</div><div><div class="place" data-editable>晶宴會館</div><div class="meta" data-editable>頭前庄站</div><a class="map" href="https://maps.app.goo.gl/nBX6A7iXzJeX3vBc8" target="_blank">Google Maps ↗</a></div></div>
-      <div class="item"><div class="time" data-editable>夜</div><div class="pending"><div class="place" data-editable>夜市？</div><div class="meta" data-editable>待定：可依當天體力與回程動線再決定。</div></div></div>
-    </section>
-
-    <section class="day">
-      <div class="day-head"><div class="date" data-editable>9/20</div><div class="weekday" data-editable>SUN｜白天自由</div></div>
-      <div class="item"><div class="time" data-editable>白天</div><div class="pending"><div class="place" data-editable>自由安排</div><div class="meta" data-editable>目前最大塊的完整自由時間。</div></div></div>
-      <div class="item"><div class="time" data-editable>18:00</div><div><div class="place" data-editable>八條老宅</div><div class="meta" data-editable>中山站｜晚餐</div><a class="map" href="https://maps.app.goo.gl/21aavnvF3HTYf5w37" target="_blank">Google Maps ↗</a></div></div>
-    </section>
-
-    <section class="day">
-      <div class="day-head"><div class="date" data-editable>9/21</div><div class="weekday" data-editable>MON｜桃園</div></div>
-      <div class="item"><div class="time" data-editable>白天</div><div class="pending"><div class="place" data-editable>自由安排</div><div class="meta" data-editable>傍晚需往桃園移動，白天不宜排太遠。</div></div></div>
-      <div class="item"><div class="time" data-editable>18:00</div><div><div class="place" data-editable>桃園</div><div class="meta" data-editable>詳細地點待補</div></div></div>
-    </section>
-
-    <section class="day">
-      <div class="day-head"><div class="date" data-editable>9/22</div><div class="weekday" data-editable>TUE｜板橋 → 南京復興</div></div>
-      <div class="item"><div class="time" data-editable>12:30</div><div><div class="place" data-editable>角落</div><div class="meta" data-editable>府中站</div><a class="map" href="https://maps.app.goo.gl/yJ3raCLBkZ3iQbQeA" target="_blank">Google Maps ↗</a></div></div>
-      <div class="item"><div class="time" data-editable>下午</div><div class="pending"><div class="place" data-editable>自由安排</div><div class="meta" data-editable>府中到南京復興之間可插入咖啡、逛街或休息。</div></div></div>
-      <div class="item"><div class="time" data-editable>19:00</div><div><div class="place" data-editable>有有1969</div><div class="meta" data-editable>南京復興站</div><a class="map" href="https://maps.app.goo.gl/yp8ziiWPtfSDJdSH9" target="_blank">Google Maps ↗</a></div></div>
-    </section>
-
-    <section class="day">
-      <div class="day-head"><div class="date" data-editable>9/23</div><div class="weekday" data-editable>WED｜回東京</div></div>
-      <div class="item"><div class="time" data-editable>12:00</div><div><div class="place" data-editable>Check-out</div></div></div>
-      <div class="item"><div class="time" data-editable>16:20</div><div><div class="place" data-editable>台北松山 → 羽田 T3</div></div></div>
-      <div class="item"><div class="time" data-editable>20:20</div><div><div class="place" data-editable>羽田 T3 到着</div></div></div>
-    </section>
-  </main>
-
-  <div class="footer">
-    小提醒：9/18 的「15:00~ check-in」早於 15:05 抵達松山機場，目前先照原始行程保留；你可以在編輯模式直接改。<br>
-    此檔案不需伺服器，直接用 Chrome / Edge 開啟即可。編輯內容儲存在目前瀏覽器的 localStorage。
-  </div>
-</div>
-
+</head><body><div class="wrap">
+<header><div><h1 data-editable>TAIPEI<br>2026</h1><div class="sub" data-editable>09.18 FRI — 09.23 WED · 5 NIGHTS / 6 DAYS</div><div class="edit-tip">編輯模式已開啟：可修改文字、新增行程，也可用色票調整每個行程模塊的顏色。內容會自動保存在這個瀏覽器。</div></div><div class="controls"><button id="editBtn" onclick="toggleEdit()">編輯行程</button><button onclick="window.print()">列印 / 存 PDF</button><button onclick="resetData()">恢復原始版本</button></div></header>
+<main class="grid" id="itinerary">
+<section class="day"><div class="day-head"><div class="date" data-editable>9/18</div><div class="weekday" data-editable>FRI｜抵達台北</div></div><div class="item"><div class="time" data-editable>12:40</div><div><div class="place" data-editable>羽田 T3 → 台北松山</div><div class="meta" data-editable>出發</div></div></div><div class="item"><div class="time" data-editable>15:05</div><div><div class="place" data-editable>抵達台北松山機場</div></div></div><div class="item"><div class="time" data-editable>15:00~</div><div><div class="place" data-editable>Check-in｜旅城驛鎮－南京一館</div><div class="meta" data-editable>松江南京站附近</div><a class="map" href="https://maps.app.goo.gl/khNGMaqjdG1tPMGh7" target="_blank">Google Maps ↗</a></div></div><div class="item"><div class="time" data-editable>夜</div><div class="pending"><div class="place" data-editable>自由安排</div><div class="meta" data-editable>抵達日不要塞太滿；吃飯、散步、便利商店補給即可。</div></div></div></section>
+<section class="day"><div class="day-head"><div class="date" data-editable>9/19</div><div class="weekday" data-editable>SAT｜宴會日</div></div><div class="item"><div class="time" data-editable>11:30</div><div><div class="place" data-editable>晶宴會館</div><div class="meta" data-editable>頭前庄站</div><a class="map" href="https://maps.app.goo.gl/nBX6A7iXzJeX3vBc8" target="_blank">Google Maps ↗</a></div></div><div class="item"><div class="time" data-editable>夜</div><div class="pending"><div class="place" data-editable>夜市？</div><div class="meta" data-editable>待定：可依當天體力與回程動線再決定。</div></div></div></section>
+<section class="day"><div class="day-head"><div class="date" data-editable>9/20</div><div class="weekday" data-editable>SUN｜白天自由</div></div><div class="item"><div class="time" data-editable>白天</div><div class="pending"><div class="place" data-editable>自由安排</div><div class="meta" data-editable>目前最大塊的完整自由時間。</div></div></div><div class="item"><div class="time" data-editable>18:00</div><div><div class="place" data-editable>八條老宅</div><div class="meta" data-editable>中山站｜晚餐</div><a class="map" href="https://maps.app.goo.gl/21aavnvF3HTYf5w37" target="_blank">Google Maps ↗</a></div></div></section>
+<section class="day"><div class="day-head"><div class="date" data-editable>9/21</div><div class="weekday" data-editable>MON｜桃園</div></div><div class="item"><div class="time" data-editable>白天</div><div class="pending"><div class="place" data-editable>自由安排</div><div class="meta" data-editable>傍晚需往桃園移動，白天不宜排太遠。</div></div></div><div class="item"><div class="time" data-editable>18:00</div><div><div class="place" data-editable>桃園</div><div class="meta" data-editable>詳細地點待補</div></div></div></section>
+<section class="day"><div class="day-head"><div class="date" data-editable>9/22</div><div class="weekday" data-editable>TUE｜板橋 → 南京復興</div></div><div class="item"><div class="time" data-editable>12:30</div><div><div class="place" data-editable>角落</div><div class="meta" data-editable>府中站</div><a class="map" href="https://maps.app.goo.gl/yJ3raCLBkZ3iQbQeA" target="_blank">Google Maps ↗</a></div></div><div class="item"><div class="time" data-editable>下午</div><div class="pending"><div class="place" data-editable>自由安排</div><div class="meta" data-editable>府中到南京復興之間可插入咖啡、逛街或休息。</div></div></div><div class="item"><div class="time" data-editable>19:00</div><div><div class="place" data-editable>有有1969</div><div class="meta" data-editable>南京復興站</div><a class="map" href="https://maps.app.goo.gl/yp8ziiWPtfSDJdSH9" target="_blank">Google Maps ↗</a></div></div></section>
+<section class="day"><div class="day-head"><div class="date" data-editable>9/23</div><div class="weekday" data-editable>WED｜回東京</div></div><div class="item"><div class="time" data-editable>12:00</div><div><div class="place" data-editable>Check-out</div></div></div><div class="item"><div class="time" data-editable>16:20</div><div><div class="place" data-editable>台北松山 → 羽田 T3</div></div></div><div class="item"><div class="time" data-editable>20:20</div><div><div class="place" data-editable>羽田 T3 到着</div></div></div></section>
+</main><div class="footer">小提醒：9/18 的「15:00~ check-in」早於 15:05 抵達松山機場，目前先照原始行程保留；你可以在編輯模式直接改。<br>此檔案不需伺服器，直接用 Chrome / Edge 開啟即可。編輯內容儲存在目前瀏覽器的 localStorage。</div></div>
 <script>
-const KEY='taipei_itinerary_20260918_v2';
-const OLD_KEY='taipei_itinerary_20260918_v1';
-let editing=false;
-const itinerary=document.getElementById('itinerary');
-
-function allEditable(){ return document.querySelectorAll('[data-editable]'); }
-
-function setEditingState(value){
-  editing=value;
-  document.body.classList.toggle('editing', editing);
-  document.getElementById('editBtn').classList.toggle('active', editing);
-  document.getElementById('editBtn').textContent=editing?'完成編輯':'編輯行程';
-  allEditable().forEach(el=>el.contentEditable=editing?'true':'false');
-}
-
-function toggleEdit(){ setEditingState(!editing); }
-
-function ensureDayActions(){
-  document.querySelectorAll('.day').forEach(day=>{
-    if(day.querySelector('.day-actions')) return;
-    const actions=document.createElement('div');
-    actions.className='day-actions';
-    actions.innerHTML='<button class="add-item-btn" type="button" onclick="addItem(this)">＋ 新增行程</button>';
-    day.appendChild(actions);
-  });
-}
-
-function addItem(button){
-  const day=button.closest('.day');
-  const actions=day.querySelector('.day-actions');
-  const item=document.createElement('div');
-  item.className='item custom-item';
-  item.innerHTML=`
-    <div class="time" data-editable>時間</div>
-    <div>
-      <div class="place" data-editable>新增行程</div>
-      <div class="meta" data-editable>點擊文字直接修改內容</div>
-      <button class="remove-item" type="button" onclick="removeItem(this)">刪除此行程</button>
-    </div>`;
-  day.insertBefore(item, actions);
-  item.querySelectorAll('[data-editable]').forEach(el=>el.contentEditable='true');
-  saveData();
-  const place=item.querySelector('.place');
-  place.focus();
-  const range=document.createRange();
-  range.selectNodeContents(place);
-  const selection=window.getSelection();
-  selection.removeAllRanges();
-  selection.addRange(range);
-}
-
-function removeItem(button){
-  const item=button.closest('.custom-item');
-  if(!item) return;
-  if(confirm('要刪除這個新增行程嗎？')){
-    item.remove();
-    saveData();
-  }
-}
-
-function saveData(){
-  const header=[...document.querySelectorAll('header [data-editable]')].map(el=>el.innerHTML);
-  const data={header,itinerary:itinerary.innerHTML};
-  localStorage.setItem(KEY,JSON.stringify(data));
-}
-
-function loadData(){
-  const raw=localStorage.getItem(KEY);
-  if(raw){
-    try{
-      const data=JSON.parse(raw);
-      if(data.itinerary) itinerary.innerHTML=data.itinerary;
-      if(Array.isArray(data.header)){
-        document.querySelectorAll('header [data-editable]').forEach((el,i)=>{
-          if(data.header[i]!==undefined) el.innerHTML=data.header[i];
-        });
-      }
-      return;
-    }catch(e){}
-  }
-
-  const oldRaw=localStorage.getItem(OLD_KEY);
-  if(oldRaw){
-    try{
-      const oldData=JSON.parse(oldRaw);
-      allEditable().forEach((el,i)=>{
-        if(oldData[i]!==undefined) el.innerHTML=oldData[i];
-      });
-      saveData();
-    }catch(e){}
-  }
-}
-
-function resetData(){
-  if(confirm('要清除自行修改與新增的內容，恢復我最初做的版本嗎？')){
-    localStorage.removeItem(KEY);
-    localStorage.removeItem(OLD_KEY);
-    location.reload();
-  }
-}
-
-document.addEventListener('input',e=>{
-  if(e.target.matches('[data-editable]')) saveData();
-});
-
-loadData();
-ensureDayActions();
-setEditingState(false);
-</script>
-</body>
-</html>
+const KEY='taipei_itinerary_20260918_v3',PREV_KEY='taipei_itinerary_20260918_v2',OLD_KEY='taipei_itinerary_20260918_v1';let editing=false;const itinerary=document.getElementById('itinerary');
+function allEditable(){return document.querySelectorAll('[data-editable]')}
+function setEditingState(v){editing=v;document.body.classList.toggle('editing',v);const b=document.getElementById('editBtn');b.classList.toggle('active',v);b.textContent=v?'完成編輯':'編輯行程';allEditable().forEach(e=>e.contentEditable=v?'true':'false')}
+function toggleEdit(){setEditingState(!editing)}
+function makeTools(item,isCustom=false){if(item.querySelector('.item-tools'))return;const tools=document.createElement('div');tools.className='item-tools';tools.innerHTML='<span class="color-label">模塊顏色</span><input class="color-picker" type="color" value="#eee2d5" aria-label="選擇模塊顏色"><button class="clear-color" type="button">取消顏色</button>'+(isCustom?'<button class="remove-item" type="button">刪除此行程</button>':'');item.querySelector(':scope > div:last-child').appendChild(tools);tools.querySelector('.color-picker').addEventListener('input',e=>{setItemColor(item,e.target.value);saveData()});tools.querySelector('.clear-color').addEventListener('click',()=>{setItemColor(item,'');saveData()});const r=tools.querySelector('.remove-item');if(r)r.addEventListener('click',()=>removeItem(r))}
+function setItemColor(item,color){item.dataset.color=color;if(color){item.style.background=color;const p=item.querySelector('.pending');if(p)p.style.background='transparent'}else{item.style.background='';const p=item.querySelector('.pending');if(p)p.style.background=''}}
+function ensureTools(){document.querySelectorAll('.item').forEach(i=>makeTools(i,i.classList.contains('custom-item')))}
+function ensureDayActions(){document.querySelectorAll('.day').forEach(day=>{if(day.querySelector('.day-actions'))return;const a=document.createElement('div');a.className='day-actions';a.innerHTML='<button class="add-item-btn" type="button">＋ 新增行程</button>';a.querySelector('button').addEventListener('click',()=>addItem(a.querySelector('button')));day.appendChild(a)})}
+function addItem(button){const day=button.closest('.day'),actions=day.querySelector('.day-actions'),item=document.createElement('div');item.className='item custom-item';item.innerHTML='<div class="time" data-editable>時間</div><div><div class="place" data-editable>新增行程</div><div class="meta" data-editable>點擊文字直接修改內容</div></div>';day.insertBefore(item,actions);makeTools(item,true);item.querySelectorAll('[data-editable]').forEach(e=>e.contentEditable='true');saveData();item.querySelector('.place').focus()}
+function removeItem(button){const item=button.closest('.custom-item');if(item&&confirm('要刪除這個新增行程嗎？')){item.remove();saveData()}}
+function saveData(){const header=[...document.querySelectorAll('header [data-editable]')].map(e=>e.innerHTML);localStorage.setItem(KEY,JSON.stringify({header,itinerary:itinerary.innerHTML}))}
+function loadData(){for(const key of[KEY,PREV_KEY]){const raw=localStorage.getItem(key);if(raw)try{const d=JSON.parse(raw);if(d.itinerary)itinerary.innerHTML=d.itinerary;if(Array.isArray(d.header))document.querySelectorAll('header [data-editable]').forEach((e,i)=>{if(d.header[i]!==undefined)e.innerHTML=d.header[i]});if(key!==KEY)saveData();return}catch(e){}}const old=localStorage.getItem(OLD_KEY);if(old)try{const d=JSON.parse(old);allEditable().forEach((e,i)=>{if(d[i]!==undefined)e.innerHTML=d[i]});saveData()}catch(e){}}
+function resetData(){if(confirm('要清除自行修改、新增與配色的內容，恢復最初版本嗎？')){[KEY,PREV_KEY,OLD_KEY].forEach(k=>localStorage.removeItem(k));location.reload()}}
+document.addEventListener('input',e=>{if(e.target.matches('[data-editable]'))saveData()});loadData();ensureDayActions();ensureTools();document.querySelectorAll('.item[data-color]').forEach(i=>setItemColor(i,i.dataset.color));setEditingState(false);
+</script></body></html>
