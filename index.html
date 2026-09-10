@@ -18,44 +18,38 @@
   *{box-sizing:border-box}
   body{
     margin:0;
-    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","Noto Sans JP",sans-serif;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC","Noto Sans JP",sans-serif;
     background:var(--bg);
     color:var(--ink);
   }
   .wrap{max-width:980px;margin:0 auto;padding:38px 20px 80px}
-  header{
-    display:flex;justify-content:space-between;gap:24px;align-items:flex-end;
-    padding:22px 0 30px;border-bottom:1px solid var(--line)
-  }
+  header{display:flex;justify-content:space-between;gap:24px;align-items:flex-end;padding:22px 0 30px;border-bottom:1px solid var(--line)}
   h1{margin:0;font-size:clamp(34px,7vw,70px);line-height:.95;letter-spacing:-.04em}
   .sub{margin-top:14px;color:var(--muted);font-size:14px;letter-spacing:.1em}
   .controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-  button{
-    border:1px solid var(--line);background:var(--paper);color:var(--ink);
-    border-radius:999px;padding:9px 13px;font-size:13px;cursor:pointer
-  }
+  button{border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:9px 13px;font-size:13px;cursor:pointer}
   button:hover{background:#fff}
   button.active{background:var(--ink);color:white;border-color:var(--ink)}
   .edit-tip{display:none;margin:14px 0 0;color:var(--accent);font-size:13px}
   body.editing .edit-tip{display:block}
-  .grid{
-    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:28px
-  }
-  .day{
-    background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:20px;
-    box-shadow:0 8px 22px rgba(48,40,29,.035)
-  }
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:28px}
+  .day{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 8px 22px rgba(48,40,29,.035)}
   .day-head{display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:12px;margin-bottom:8px}
   .date{font-size:26px;font-weight:750;letter-spacing:-.03em}
   .weekday{font-size:13px;color:var(--muted)}
   .item{display:grid;grid-template-columns:64px 1fr;gap:10px;padding:12px 0;border-bottom:1px dashed #e7e1d8}
-  .item:last-child{border-bottom:0}
   .time{font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
   .place{font-weight:650;line-height:1.5}
   .meta{margin-top:4px;font-size:13px;color:var(--muted);line-height:1.55}
   .map{display:inline-block;margin-top:6px;color:var(--green);font-size:12px;text-decoration:none;border-bottom:1px solid #bfc8bc}
   .pending{background:var(--soft);padding:9px 11px;border-radius:12px}
   [contenteditable="true"]{outline:2px dashed rgba(184,91,63,.25);outline-offset:3px;border-radius:4px}
+  .day-actions{display:none;padding-top:14px;justify-content:flex-start}
+  body.editing .day-actions{display:flex}
+  .add-item-btn{width:100%;border-style:dashed;color:var(--green);background:#fbfaf6}
+  .remove-item{display:none;margin-top:8px;padding:4px 9px;font-size:11px;color:var(--accent);border-color:#dfc0b7;background:transparent}
+  body.editing .remove-item{display:inline-block}
+  .custom-item{background:rgba(238,226,213,.28);border-radius:12px;padding:12px 8px;margin-top:5px}
   .footer{margin-top:24px;color:var(--muted);font-size:12px;line-height:1.7}
   @media (max-width:700px){
     .wrap{padding:24px 14px 60px}
@@ -67,7 +61,7 @@
   @media print{
     body{background:white}
     .wrap{max-width:none;padding:0}
-    .controls,.edit-tip,.footer{display:none!important}
+    .controls,.edit-tip,.footer,.day-actions,.remove-item{display:none!important}
     .grid{grid-template-columns:1fr 1fr;gap:10px}
     .day{box-shadow:none;break-inside:avoid}
   }
@@ -79,7 +73,7 @@
     <div>
       <h1 contenteditable="false" data-editable>TAIPEI<br>2026</h1>
       <div class="sub" contenteditable="false" data-editable>09.18 FRI — 09.23 WED · 5 NIGHTS / 6 DAYS</div>
-      <div class="edit-tip">編輯模式已開啟：直接點文字修改。內容會自動保存在這個瀏覽器。</div>
+      <div class="edit-tip">編輯模式已開啟：可直接修改文字，也可在每天卡片底部新增行程。內容會自動保存在這個瀏覽器。</div>
     </div>
     <div class="controls">
       <button id="editBtn" onclick="toggleEdit()">編輯行程</button>
@@ -137,45 +131,114 @@
 </div>
 
 <script>
-const KEY='taipei_itinerary_20260918_v1';
+const KEY='taipei_itinerary_20260918_v2';
+const OLD_KEY='taipei_itinerary_20260918_v1';
 let editing=false;
 const itinerary=document.getElementById('itinerary');
 
 function allEditable(){ return document.querySelectorAll('[data-editable]'); }
 
-function toggleEdit(){
-  editing=!editing;
+function setEditingState(value){
+  editing=value;
   document.body.classList.toggle('editing', editing);
   document.getElementById('editBtn').classList.toggle('active', editing);
   document.getElementById('editBtn').textContent=editing?'完成編輯':'編輯行程';
   allEditable().forEach(el=>el.contentEditable=editing?'true':'false');
 }
 
+function toggleEdit(){ setEditingState(!editing); }
+
+function ensureDayActions(){
+  document.querySelectorAll('.day').forEach(day=>{
+    if(day.querySelector('.day-actions')) return;
+    const actions=document.createElement('div');
+    actions.className='day-actions';
+    actions.innerHTML='<button class="add-item-btn" type="button" onclick="addItem(this)">＋ 新增行程</button>';
+    day.appendChild(actions);
+  });
+}
+
+function addItem(button){
+  const day=button.closest('.day');
+  const actions=day.querySelector('.day-actions');
+  const item=document.createElement('div');
+  item.className='item custom-item';
+  item.innerHTML=`
+    <div class="time" data-editable>時間</div>
+    <div>
+      <div class="place" data-editable>新增行程</div>
+      <div class="meta" data-editable>點擊文字直接修改內容</div>
+      <button class="remove-item" type="button" onclick="removeItem(this)">刪除此行程</button>
+    </div>`;
+  day.insertBefore(item, actions);
+  item.querySelectorAll('[data-editable]').forEach(el=>el.contentEditable='true');
+  saveData();
+  const place=item.querySelector('.place');
+  place.focus();
+  const range=document.createRange();
+  range.selectNodeContents(place);
+  const selection=window.getSelection();
+  selection.removeAllRanges();
+  selection.addRange(range);
+}
+
+function removeItem(button){
+  const item=button.closest('.custom-item');
+  if(!item) return;
+  if(confirm('要刪除這個新增行程嗎？')){
+    item.remove();
+    saveData();
+  }
+}
+
 function saveData(){
-  const data=[...allEditable()].map(el=>el.innerHTML);
-  localStorage.setItem(KEY, JSON.stringify(data));
+  const header=[...document.querySelectorAll('header [data-editable]')].map(el=>el.innerHTML);
+  const data={header,itinerary:itinerary.innerHTML};
+  localStorage.setItem(KEY,JSON.stringify(data));
 }
 
 function loadData(){
   const raw=localStorage.getItem(KEY);
-  if(!raw) return;
-  try{
-    const data=JSON.parse(raw);
-    allEditable().forEach((el,i)=>{ if(data[i]!==undefined) el.innerHTML=data[i]; });
-  }catch(e){}
+  if(raw){
+    try{
+      const data=JSON.parse(raw);
+      if(data.itinerary) itinerary.innerHTML=data.itinerary;
+      if(Array.isArray(data.header)){
+        document.querySelectorAll('header [data-editable]').forEach((el,i)=>{
+          if(data.header[i]!==undefined) el.innerHTML=data.header[i];
+        });
+      }
+      return;
+    }catch(e){}
+  }
+
+  const oldRaw=localStorage.getItem(OLD_KEY);
+  if(oldRaw){
+    try{
+      const oldData=JSON.parse(oldRaw);
+      allEditable().forEach((el,i)=>{
+        if(oldData[i]!==undefined) el.innerHTML=oldData[i];
+      });
+      saveData();
+    }catch(e){}
+  }
 }
 
 function resetData(){
-  if(confirm('要清除自行修改的內容，恢復我最初做的版本嗎？')){
+  if(confirm('要清除自行修改與新增的內容，恢復我最初做的版本嗎？')){
     localStorage.removeItem(KEY);
+    localStorage.removeItem(OLD_KEY);
     location.reload();
   }
 }
 
-document.addEventListener('input', e=>{
+document.addEventListener('input',e=>{
   if(e.target.matches('[data-editable]')) saveData();
 });
+
 loadData();
+ensureDayActions();
+setEditingState(false);
 </script>
 </body>
 </html>
