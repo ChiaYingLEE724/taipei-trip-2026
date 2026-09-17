@@ -37,7 +37,74 @@ function setColor(item,color){const b=bodyOf(item);if(!b)return;color=color==='#
 function makeMove(item){if(item.querySelector(':scope > .move-controls'))return;const c=document.createElement('div');c.className='move-controls';c.innerHTML='<button class="move-btn up" type="button">↑</button><button class="move-btn down" type="button">↓</button>';item.prepend(c);c.querySelector('.up').onclick=()=>moveItem(item,-1);c.querySelector('.down').onclick=()=>moveItem(item,1)}
 function moveItem(item,d){const day=item.closest('.day'),a=[...day.querySelectorAll(':scope > .item')],i=a.indexOf(item),j=i+d;if(j<0||j>=a.length)return;d<0?day.insertBefore(item,a[j]):day.insertBefore(a[j],item);updateMoves(day)}
 function updateMoves(day){const a=[...day.querySelectorAll(':scope > .item')];a.forEach((x,i)=>{x.querySelector('.up').disabled=i===0;x.querySelector('.down').disabled=i===a.length-1})}
-function makeTools(item){const b=bodyOf(item);if(!b||item.querySelector('.item-tools'))return;const custom=item.classList.contains('custom-item'),t=document.createElement('div');t.className='item-tools';t.innerHTML='<span class="color-label">模塊顏色</span><select class="color-select"><option value="#eee2d5">米色</option><option value="#fffdf8">白色</option></select>'+(custom?'<button class="remove-item" type="button">刪除此行程</button>':'');b.appendChild(t);t.querySelector('select').onchange=e=>setColor(item,e.target.value);if(custom)t.querySelector('.remove-item').onclick=()=>{if(confirm('要刪除這個新增行程嗎？')){const d=item.closest('.day');item.remove();updateMoves(d)}};t.querySelector('select').value=item.dataset.color||'#fffdf8'}
+function makeTools(item){
+  const b=bodyOf(item);
+  if(!b||item.querySelector('.item-tools'))return;
+
+  const custom=item.classList.contains('custom-item');
+  const t=document.createElement('div');
+  t.className='item-tools';
+
+  t.innerHTML=
+    '<span class="color-label">模塊顏色</span>'+
+    '<select class="color-select">'+
+      '<option value="#eee2d5">米色</option>'+
+      '<option value="#fffdf8">白色</option>'+
+    '</select>'+
+    '<button class="map-edit-btn" type="button">📍 Google Maps</button>'+
+    (custom?'<button class="remove-item" type="button">刪除此行程</button>':'');
+
+  b.appendChild(t);
+
+  t.querySelector('select').onchange=e=>setColor(item,e.target.value);
+  t.querySelector('select').value=item.dataset.color||'#fffdf8';
+
+  t.querySelector('.map-edit-btn').onclick=()=>{
+    let map=b.querySelector('a.map');
+    const oldUrl=map?.href||'';
+
+    const url=prompt(
+      '請貼上 Google Maps 網址：\n（留空並確定可刪除現有連結）',
+      oldUrl
+    );
+
+    if(url===null)return;
+
+    if(!url.trim()){
+      if(map)map.remove();
+      return;
+    }
+
+    if(!/^https?:\/\//i.test(url.trim())){
+      alert('請輸入完整的 Google Maps 網址。');
+      return;
+    }
+
+    if(!map){
+      map=document.createElement('a');
+      map.className='map';
+      map.target='_blank';
+      map.rel='noopener noreferrer';
+      map.textContent='Google Maps ↗';
+
+      const meta=b.querySelector('.meta');
+      if(meta)meta.insertAdjacentElement('afterend',map);
+      else b.insertBefore(map,t);
+    }
+
+    map.href=url.trim();
+  };
+
+  if(custom){
+    t.querySelector('.remove-item').onclick=()=>{
+      if(confirm('要刪除這個新增行程嗎？')){
+        const d=item.closest('.day');
+        item.remove();
+        updateMoves(d);
+      }
+    };
+  }
+}
 function parseTime(t,i){t=(t||'').trim();const m=t.match(/(\d{1,2})\s*:\s*(\d{2})/);if(m)return +m[1]*60 + +m[2];const map=[['清晨',360],['早上',480],['上午',540],['中午',720],['白天',780],['下午',900],['傍晚',1020],['晚上',1200],['夜',1260],['深夜',1380]];for(const [k,v] of map)if(t.includes(k))return v;return 1440+i}
 function sortDay(day){const a=[...day.querySelectorAll(':scope > .item')],actions=day.querySelector('.day-actions');a.map((x,i)=>({x,i,v:parseTime(x.querySelector('.time')?.textContent,i)})).sort((a,b)=>a.v-b.v||a.i-b.i).forEach(o=>day.insertBefore(o.x,actions));updateMoves(day)}
 function addItem(day){const actions=day.querySelector('.day-actions'),item=document.createElement('div');item.className='item custom-item';item.innerHTML='<div class="time" data-editable>時間</div><div class="item-body"><div class="place" data-editable>新增行程</div><div class="meta" data-editable>點擊文字直接修改內容</div></div>';day.insertBefore(item,actions);setColor(item,'#fffdf8');makeMove(item);makeTools(item);item.querySelectorAll('[data-editable]').forEach(e=>e.contentEditable='true');updateMoves(day);item.querySelector('.place').focus()}
