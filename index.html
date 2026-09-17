@@ -27,7 +27,26 @@ const itinerary=document.getElementById('itinerary');
 function allEditable(){return document.querySelectorAll('[data-editable]')}
 function captureState(){return{header:[...document.querySelectorAll('header [data-editable]')].map(e=>e.innerHTML),itinerary:itinerary.innerHTML}}
 function stripControls(){document.querySelectorAll('.item-tools,.day-actions,.move-controls').forEach(e=>e.remove())}
-function cleanState(){const s=captureState(),box=document.createElement('div');box.innerHTML=s.itinerary;box.querySelectorAll('.item-tools,.day-actions,.move-controls').forEach(e=>e.remove());s.itinerary=box.innerHTML;return s}
+function cleanState(){
+  const s=captureState();
+  const box=document.createElement('div');
+
+  box.innerHTML=s.itinerary;
+
+  // 不把編輯介面的控制元件存進 Supabase
+  box.querySelectorAll(
+    '.item-tools,.day-actions,.move-controls'
+  ).forEach(e=>e.remove());
+
+  // 不把「目前正在編輯」的狀態存進 Supabase
+  box.querySelectorAll('[contenteditable]').forEach(e=>{
+    e.removeAttribute('contenteditable');
+  });
+
+  s.itinerary=box.innerHTML;
+
+  return s;
+}
 function restoreState(s){
   if(!s)return;
 
