@@ -47,7 +47,25 @@ function loadLocal(){for(const k of [KEY,...PREV_KEYS]){const raw=localStorage.g
 function saveLocal(s){localStorage.setItem(KEY,JSON.stringify(s))}
 function configured(){return SUPABASE_KEY.startsWith('sb_publishable_')}
 async function refreshAuth(){if(!db)return;const {data:{user}}=await db.auth.getUser();currentUser=user||null;isEditor=false;if(user){const {data}=await db.from('trip_editors').select('user_id').eq('user_id',user.id).maybeSingle();isEditor=!!data}document.getElementById('loginBtn').style.display=user?'none':'inline-block';document.getElementById('logoutBtn').style.display=user?'inline-block':'none';document.getElementById('editBtn').style.display=isEditor?'inline-block':'none';document.getElementById('authStatus').textContent=isEditor?'已登入｜可編輯共同行程':user?'已登入｜此帳號只有檢視權限':'公開檢視模式';if(editing&&!isEditor)setEditingState(false)}
-async function loginEditor(){if(!db)return alert('Supabase 尚未完成設定。');const email=prompt('請輸入收到 Supabase 邀請的 Email：');if(!email)return;const {error}=await db.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname}});if(error)return alert('登入信寄送失敗：'+error.message);alert('登入連結已寄到你的 Email。請點擊信中的連結回到此頁。')}
+async function loginEditor(){
+  if(!db)return alert('Supabase 尚未完成設定。');
+
+  const email=prompt('請輸入 Email：');
+  if(!email)return;
+
+  const password=prompt('請輸入密碼：');
+  if(!password)return;
+
+  const {error}=await db.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if(error)return alert('登入失敗：'+error.message);
+
+  await refreshAuth();
+  await loadRemote();
+}
 async function logoutEditor(){if(db)await db.auth.signOut();await refreshAuth()}
 async function loadRemote(force=false){if(!db||editing)return;const {data,error}=await db.from('trip_data').select('data,updated_at').eq('id',TRIP_ID).maybeSingle();if(error){document.getElementById('authStatus').textContent='共同行程讀取失敗';return}if(data&&data.data&&data.data.itinerary){restoreState(data.data);saveLocal(data.data);remoteReady=true;document.getElementById('authStatus').dataset.remote='1'}else if(!remoteReady){remoteReady=true}}
 async function saveShared(){const s=cleanState();saveLocal(s);if(!db||!isEditor){alert('目前沒有共同行程編輯權限。');return}const {error}=await db.from('trip_data').update({data:s,updated_at:new Date().toISOString(),updated_by:currentUser.id}).eq('id',TRIP_ID);if(error){alert('儲存失敗：'+error.message);return}document.getElementById('authStatus').textContent='已儲存到共同行程';setTimeout(refreshAuth,1800)}
