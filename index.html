@@ -28,7 +28,27 @@ function allEditable(){return document.querySelectorAll('[data-editable]')}
 function captureState(){return{header:[...document.querySelectorAll('header [data-editable]')].map(e=>e.innerHTML),itinerary:itinerary.innerHTML}}
 function stripControls(){document.querySelectorAll('.item-tools,.day-actions,.move-controls').forEach(e=>e.remove())}
 function cleanState(){const s=captureState(),box=document.createElement('div');box.innerHTML=s.itinerary;box.querySelectorAll('.item-tools,.day-actions,.move-controls').forEach(e=>e.remove());s.itinerary=box.innerHTML;return s}
-function restoreState(s){if(!s)return;itinerary.innerHTML=s.itinerary;if(Array.isArray(s.header))document.querySelectorAll('header [data-editable]').forEach((e,i)=>{if(s.header[i]!=null)e.innerHTML=s.header[i]});stripControls();normalizeItems();ensureControls()}
+function restoreState(s){
+  if(!s)return;
+
+  itinerary.innerHTML=s.itinerary;
+
+  if(Array.isArray(s.header)){
+    document.querySelectorAll('header [data-editable]').forEach((e,i)=>{
+      if(s.header[i]!=null)e.innerHTML=s.header[i];
+    });
+  }
+
+  stripControls();
+  normalizeItems();
+  ensureControls();
+
+  // 從 Supabase / localStorage 還原資料後，
+  // 一律依照目前真正的 editing 狀態重新設定編輯權限。
+  allEditable().forEach(e=>{
+    e.contentEditable=editing?'true':'false';
+  });
+}
 function setEditingState(v){editing=v;document.body.classList.toggle('editing',v);const b=document.getElementById('editBtn'),c=document.getElementById('cancelBtn');b.classList.toggle('active',v);b.textContent=v?'完成編輯':'編輯行程';c.style.display=v?'inline-block':'none';allEditable().forEach(e=>e.contentEditable=v?'true':'false')}
 async function toggleEdit(){if(!isEditor)return;if(!editing){editSnapshot=cleanState();setEditingState(true);return}await saveShared();editSnapshot=null;setEditingState(false)}
 function cancelEdit(){if(!editing)return;restoreState(editSnapshot);editSnapshot=null;setEditingState(false)}
